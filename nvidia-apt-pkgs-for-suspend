@@ -20,7 +20,9 @@ libnvidia-gl-515:amd64=515.48.07-0ubuntu0.20.04.2 \
 libnvidia-gl-515:i386=515.48.07-0ubuntu0.20.04.2 \
 nvidia-kernel-common-515=515.48.07-0ubuntu0.20.04.2 \
 libnvidia-common-515=515.48.07-0ubuntu0.20.04.2 \
-libxnvctrl0:amd64=470.57.01-0ubuntu0.20.04.3
+libxnvctrl0:amd64=470.57.01-0ubuntu0.20.04.3 \
+nvidia-dkms-515=515.48.07-0ubuntu0.20.04.2 \
+nvidia-driver-515=515.48.07-0ubuntu0.20.04.2
 
 
 sudo apt remove \
