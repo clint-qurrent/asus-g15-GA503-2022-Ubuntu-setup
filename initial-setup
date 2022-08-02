@@ -1,0 +1,84 @@
+Setup of Ubuntu 20.04.4 on a new ROG G15 laptop with AMD processor and Nvidia graphics (GA503)
+#install Ubuntu 20.04.4 from website ISO
+
+#Note on external monitors...
+#After all the stuff be low is done the HDMI port may only work when power profile is in Balanced or Hybrid, when the iGPU (built into AMD processor) is active, but its the slow port anyway, using USB-C is fastest because its connected directly to the Nvidia card.  Both USC-C ports should work at the same time.  Performance mode might kill battery life, not thats its great anyway, but 4 or 5 hours is better than 2 or 3.
+
+
+#install Tweaks to set touchpad to use two finger click for right click so we can get stuff done
+sudo apt install gnome-tweaks
+#run the Tweaks app, find the Finger settings for mouse emulation and turn it on, this also makes 3-finger click paste into Terminals...cool
+#also disable tap to click in Settings because palm rejection is not very good
+
+#start fresh
+sudo apt full-upgrade
+
+#after full update need to switch to nvidia 515 driver for CUDA 11.x
+#can't switch in the GUI yet, do this
+sudo ubuntu-drivers install
+#restart
+#Check in "Additional Drivers", 515 should be active, now can install ZED and CUDA 11.7
+#(510 only has CUDA 11.6)
+#verify nvidia graphics and CUDA version
+nvidia-smi
+#setup SSH keys so ZED can be installed
+ssh-keygen -t ed25519 -C "clint@qurrent.co"
+#install new nvidia public keys
+https://developer.nvidia.com/blog/updating-the-cuda-linux-gpg-repository-key/
+#continue with ZED install after making it executable
+
+#enable hibernation since these computers only last a few days in sleep with Linux
+https://help.ubuntu.com/community/SwapFaq
+https://askubuntu.com/questions/1240123/how-to-enable-the-hibernate-option-in-ubuntu-20-04
+#UUID=3c3847c6-fd15-4b7a-8067-49ac903fda1d
+sudo update-grub
+#now test if you want
+sudo systemctl hiberbate
+#or move on to the next thing to get a GUI control of hibernation
+
+
+#install a gnome shell 3.36 extension to do hibernate from the power menus
+https://extensions.gnome.org/extension/755/hibernate-status-button/
+#don't use simpler off menu, it asks for passwor everytime
+#put it in /home/clint/.local/share/gnome-shell/extensions/
+#the folder name must match exactly the uuid defined in metadata.json of the extension
+#make the file it tells you in the README
+#restart
+#enable the new extension in Extensions or Tweaks
+#edit settings for extension to show Hibernate
+
+
+#install asusctl to control your keyboard backlight 
+https://gitlab.com/asus-linux/asusctl
+sudo apt install libclang-dev libudev-dev git curl build-essential
+git clone https://gitlab.com/asus-linux/asusctl.git
+cd asusctl
+#install Rust language
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+#open a new terminal window so the env can update after the install
+#build
+make
+#install
+sudo make install
+restart
+#rog-control-center is the GUI to control the keyboard, its in the start/app menu
+#can also set battery charge limit and graphics performance mode here, I set batt to 95% max for life, not sure if power profile is agood idea or not with nvidia
+
+
+#super graphics control!
+git clone https://gitlab.com/asus-linux/supergfxctl.git
+cd supergfxctl
+make && sudo make install
+sudo systemctl enable supergfxd.service --now
+sudo usermod -a -G users $USER
+supergfxctl --mode hybrid
+#restart!
+
+#install multi-monitor shell extension to get the top bar on all screens
+https://extensions.gnome.org/extension/921/multi-monitors-add-on/
+#install it and enable it similar to the simpler-off-menu extension
+
+#now install Chrome, ROS, whatever!
+
+#ros script fails a wxPython package, fix it this way (missing GTK3)
+????
