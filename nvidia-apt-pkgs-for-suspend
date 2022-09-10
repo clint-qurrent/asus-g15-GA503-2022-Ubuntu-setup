@@ -33,3 +33,44 @@ libwayland-server0:i386
 
 After getting back to functional try to hold the driver version (not sure if this works)
 sudo apt-mark hold nvidia-driver-515
+
+----holding doesn't work!  Still can get upgraded and destroy stuff.  
+When this happens the file versions we want are no longer available via a PPA and the latest still don't work (as of Sept 10, 2022)
+I downloaded the versions we want and can install them via command line after manaully removing the automatic versions
+
+Remove the nvidia repo as an option for packages
+  uncheck "Proprietary drivers for devices" in Software & Updates (probably a better way exists, but..)
+  uncheck aything CUDA in Software & Updates
+  comment out CUDA repos in /etc/apt/sources.list.d/cuda-ubuntu2004-x86_64.list
+  run: sudo apt update
+
+Manually remove:
+sudo apt remove \
+libnvidia-cfg1-515 \
+libnvidia-common-515 \
+libnvidia-compute-515 \
+libnvidia-decode-515 \
+libnvidia-encode-515 \
+libnvidia-extra-515 \
+libnvidia-fbc1-515 \
+libnvidia-gl-515 \
+nvidia-compute-utils-515 \
+nvidia-dkms-515 \
+nvidia-driver-515 \
+nvidia-kernel-common-515 \
+nvidia-kernel-source-515 \
+nvidia-utils-515 \
+xserver-xorg-video-nvidia-515
+
+Copy the files from Drive: https://drive.google.com/drive/folders/18QPrfV3SHNV2V7pP7UMXHhILjBqEeBrk?usp=sharing
+Extract the files to a directory where only they exist
+Now install all the files: sudo apt install ./*
+Say yes to its chosen substitute package names that don't have the version appended
+Reboot
+Run: nvidia-smi
+  verify driver is functioning
+Run: apt-cache policy nvidia-driver-515
+  verify active (*** marked) version is 515.48.07-0ubuntu0.20.04.2
+  and verify that there are no newer candidate versions (if there are find the repo and remove it then run apt update again)
+
+
