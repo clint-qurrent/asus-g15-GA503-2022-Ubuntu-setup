@@ -1,0 +1,17 @@
+Issue:  volume control doesn't really change volume but makes the sound muddier at low levels and sounds fine at 100%
+
+I installed pulseaudio-equalizer (qpaeq) to adjust the high frequencies, but realized that it was more a level thing than an EQ thing.
+May be related to this computer having 4 speeakers and a "subwoofer" and the sub not being affected by the master volume
+
+Discovered that when running alsamixer and changing the PCM level the volume change as it should without affecting tone.
+Some searching brough up https://forums.linuxmint.com/viewtopic.php?f=42&t=91453&p=1639481
+
+The fix:
+sudo nano /usr/share/pulseaudio/alsa-mixer/paths/analog-output.conf.common
+
+add this above the [Element PCM] block:
+[Element Master]
+switch = mute
+volume = ignore
+
+Now volume buttons and sliders affect the PCM level rather than the master level and all is good.
