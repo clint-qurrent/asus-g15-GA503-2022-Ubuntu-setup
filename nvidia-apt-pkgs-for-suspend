@@ -72,5 +72,24 @@ Run: nvidia-smi
 Run: apt-cache policy nvidia-driver-515
   verify active (*** marked) version is 515.48.07-0ubuntu0.20.04.2
   and verify that there are no newer candidate versions (if there are find the repo and remove it then run apt update again)
+FYI, this supports CUDA 11.7 so the rest of this system configuration will be about 11.7
 
+If you had to go through this then your ZED/CUDA install maybe got busted, but DO NOT install CUDA via ZED installer or it will try to upgrade your graphics driver again!!  
+If the issues are during compile of C++ programs related to CUDA Toolkit path-
+It could be just a CUDA config issue...make sure your .bashrc file as the following lines:
+  export PATH=$PATH:/usr/local/cuda/bin
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib:/usr/local/lib
+  export CPLUS_INCLUDE_PATH=/usr/local/cuda/include
 
+If the issues are during compile of C++ programs related to CUDA Toolkit version-
+If you get errors about CUDA toolkit version being 10.1 its probalby because you manually installed nvidia-cuda-toolkit instead of installing the package that references a specific version...no prob, just remove it (sudo apt remove nvidia-cuda-toolkit) and then kill all folders related to it until running "nvcc --version" shows 11.7
+
+If you get weird errors when running (not compiling) C++ and python stuff related to opengl then you need to switch the graphics card into full Nvidia mode:
+  sudo prime-select nvidia
+  sudo reboot now
+
+If all else fails reinstall install it like this: sudo apt install cuda-toolkit-11-7
+You may need to fix nvidia public keys https://forums.developer.nvidia.com/t/notice-cuda-linux-repository-key-rotation/212772
+where distro and arch are ubuntu2004 and x86_64:
+  wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
+  dpkg -i cuda-keyring_1.0-1_all.deb
