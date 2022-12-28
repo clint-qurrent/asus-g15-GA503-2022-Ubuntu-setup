@@ -3,6 +3,7 @@
 Doing the fresh install and keeping the older nvidia drivers works for maintaining suspend and hibernate behavior.
 However, if you update to a much new Nvidia driver it can break your suspend and not be able to go back even when rolling back the drivers.
 
+
 Using Nvidia 515.86.01 this was the fix for suspend:
 help diagnosing:
 https://askubuntu.com/questions/1196871/gnome-supend-on-laptop-lid-close-no-longer-works-since-19-10-upgrade
@@ -13,7 +14,9 @@ sudo rm /etc/systemd/system/systemd-suspend.service.requires/*
 sudo reboot now
 
 Hibernate solution:
-????
+Redo all the hibernate stuff from the initial setup doc
+https://askubuntu.com/questions/411583/could-not-stat-the-resume-device-file
+look for errors in /var/log/pm-suspend.log  when running sudo pm-hiberate
 
 
 Change grub resolution for boot menu:
