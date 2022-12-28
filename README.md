@@ -20,6 +20,9 @@ look for errors in /var/log/pm-suspend.log  when running sudo pm-hiberate
 https://blog.ivansmirnov.name/how-to-set-up-hibernate-on-ubuntu-20-04/
 in the /etc/initramfs-tools/conf.d/resume  file the RESUME must be caps or it will not work!
 pm-hibernate works now but wifi can be sketch after resume...
+to make the hibernate menu work systemd needs to get fixed but dunno what it is.
+Shortcut is to tell it to use pm-hibernate:
+https://askubuntu.com/questions/974788/how-to-make-linux-prefer-sudo-pm-hibernate-over-systemctl-hibernate-as-default
 
 
 Change grub resolution for boot menu:
