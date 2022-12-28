@@ -17,6 +17,9 @@ Hibernate solution:
 Redo all the hibernate stuff from the initial setup doc
 https://askubuntu.com/questions/411583/could-not-stat-the-resume-device-file
 look for errors in /var/log/pm-suspend.log  when running sudo pm-hiberate
+https://blog.ivansmirnov.name/how-to-set-up-hibernate-on-ubuntu-20-04/
+in the /etc/initramfs-tools/conf.d/resume  file the RESUME must be caps or it will not work!
+pm-hibernate works now but wifi can be sketch after resume...
 
 
 Change grub resolution for boot menu:
